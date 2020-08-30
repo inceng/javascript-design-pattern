@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Person(name) {
+        this.name = name;
+      }
+      Person.prototype.getName = function () {
+        return this.name;
+      };
+
+      var objectFactoy = function () {
+        //   arguments  [Person,"seven"]
+        var obj = new Object();
+        var Constructor = [].shift.call(arguments); // 删除第一个元素即（Person）并返回 Person 构造函数； 由于arguments未类数组，不能直接使用shift方法
+        // 删除Person后 arguments  为 ["seven"]
+        obj.__proto__ = Constructor.prototype; // 让obj指向正确的构造器，即Person
+
+        var ret = Constructor.apply(obj, arguments); // 使用传入的构造器（Person），给obj设置属性
+
+        return typeof ret === "object" ? ret : obj; //确保构造器总是返回一个对象；** Person构造器构建正常的对象， 否则使用初始object;
+      };
+
+      var a = objectFactoy(Person, "seven");
+      console.log(a.name); //  seven
+      console.log(a.getName()); // seven
+
+      console.log(Object.getPrototypeOf(a) === Person.prototype); // true
+      console.log(a instanceof Person);  //true  判断a 是否是Person的实例，，，换言之：判断a是否是new Person(...)创建的
+
+      /*******************分割********************/
+
+      var xxx = Person("hello2");  //  并通过new 创建的
+
+      console.log(xxx instanceof Person); //false  非new创建，此时可知道xxx并不是Person的实例
+
+      //  ps  ....
+
+      function BaseProject() {}
+
+      var b = objectFactoy(BaseProject);
+      //console.log(b.name); // undefined
+      //console.log(Object.getPrototypeOf(b) === BaseProject.prototype);
+    </script>
+  </body>
+</html>
