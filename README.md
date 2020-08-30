@@ -1,4 +1,7 @@
 # javascript设计模式和开发实践
+
+![javascript-design-pattern](https://github.com/inceng/javascript-design-pattern/tree/master/desc/design.png)
+
 > 曾探⚪著
 
 > 图灵原创
