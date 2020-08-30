@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        // create Animal base Object
+        function Animal(){
+            this.name = "animal";
+        }
+        Animal.prototype = {
+            makeSound:function(){
+                console.log("animal makesound!!!");
+            },
+            eat:function(){
+                console.log("animal eat!!!");
+            },
+            proRender:function(){
+                console.log("animal render!!!");
+            },
+            init:function(){
+                this.proRender();
+                this.render();
+            }
+        }
+
+        // create Dog Object from Animal Object
+        function Dog(){
+            var o = new Animal();
+            o.eat = function(){
+                console.log("dog eat");
+            }
+            o.render = function(){
+                console.log("dog render");
+            }
+            return o;
+        }
+        
+        var dog = new Dog();
+
+        console.log(dog);
+
+        /**
+        * test
+        **/
+        dog.makeSound();
+        dog.eat();
+        dog.init();
+
+        console.log(dog.hasOwnProperty("render"));
+
+    </script>
+    
+</body>
+</html>
