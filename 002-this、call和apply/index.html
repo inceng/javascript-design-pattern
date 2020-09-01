@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        // this的指向
+        // 1. 作为 对象的方法调用
+        var obj = {
+            a:1,
+            getA:function(){
+                console.log(this === obj); // this和obj是同一个对象，即 指向同一个内存地址，则判断相等
+                console.log(this.a);
+            }
+        }
+        obj.getA();
+
+        //结论： 通过对象的方法调用时，对象的方法内的this则会指向该对象。
+
+        // 2. 作为普通函数调用
+        
+        window.name = "global";
+        function getName(){
+            console.log(this==window);
+            console.log(this.name);
+            console.log(name); // 此时函数体内 未定义name 则往外层找name。
+        }
+
+        getName();
+        //结论： 普通函数体内 this指向window
+
+        // 3. 构造器调用
+
+        var MyClass = function(){
+            this.name = "inceng";
+        }
+        var myObj = new MyClass();
+
+        console.log(myObj.name);
+
+        // 解读：
+        /**
+        myObj通过new MyClass(此时这个MyClass一般叫构造器-即特殊的函数)，
+        此时myObj就会重新新建一个对象 {} 并把构造器中带this.属性以及this.方法进行放到新{}对象中，
+        并赋值给myObj
+
+        此时this 就 指向 new MyClass()返回的对象。
+        **/
+
+        //4. Function.prototype.call 或 Function.prototype.apply 调用
+
+        var obj1 = {
+            name:"hello",
+            getName:function(){
+                return this.name;
+            }
+        }
+
+        var obj2 = {
+            name:"world"
+        }
+
+        console.log(obj1.getName()); // 输出  hello
+        console.log(obj1.getName.call(obj2)); // 输出 world
+        console.log(obj1.getName.apply(obj2)); // 同样 输出 world
+
+        // call和apply 均可以改变上下文根，即 改变this的指向。
+
+    </script>
+    
+</body>
+</html>
