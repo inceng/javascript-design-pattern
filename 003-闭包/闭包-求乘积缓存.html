@@ -1,0 +1,92 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-01 23:58:37
+ * @LastEditTime: 2020-09-02 01:37:42
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \wwwroot\inceng\javascript-design-pattern\003-闭包\闭包-求乘积缓存.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //  1. 函数求乘积
+        var mult = function(){
+            var a = 1;
+            for(var i = 0,l = arguments.length; i < l; i++ ){
+                a*=arguments[i];
+            }
+            return a;
+        }
+        console.log(mult(1,2,3));
+
+        // 2.求和  // 无聊扩展
+
+        var sum = function(){
+            // 将 类数组 转成 数组 .
+            var args = Array.prototype.slice.call(arguments);
+            return args.reduce(function(total,cur){
+                return total+cur;
+            },0); // 初始值 0 可省略 默认0
+        }
+        console.log(sum(1,2,3,4,5));
+
+        // 3. 求乘积 增加 缓存--概念 ，通过对象记录 
+        /*
+        var cache = {
+            "1*2*3":6
+        }
+        */
+
+        var cache = {};
+
+        var mult = function(){
+            var cacheKey = Array.prototype.join.call(arguments,"*");
+
+            if(cache[cacheKey]){
+                console.log(cacheKey,"的乘积已缓存，直接返回");
+                return cache[cacheKey];
+            }
+            // 求乘积----升级方法  reduce 追加器 ，不但可以来求和、求乘积...可以更多应用场所
+            var args = Array.prototype.slice.call(arguments);
+            return cache[cacheKey] = args.reduce(function(total,cur){
+                return total*cur;
+            },1);
+        }
+        console.log(mult(1,2,3,4));
+        console.log(mult(1,2,3,4));
+
+        // 闭包 求乘积 --- 终极版
+
+        var multiTop = (function(){
+            var cache = {};
+            // 求乘积
+            var calculate = function(){
+                var args = Array.prototype.slice.call(arguments);
+                return args.reduce(function(total,cur){
+                    return total*cur;
+                },1);
+            }
+            return function(){
+                var cacheKey = Array.prototype.join.call(arguments,"*");
+                if(cache[cacheKey]){
+                    console.log(cacheKey,"的乘积已缓存，直接返回");
+                    return cache[cacheKey];
+                }
+                // 求乘积----升级方法  reduce 追加器 ，不但可以来求和、求乘积...可以更多应用场所
+                return cache[cacheKey] = calculate.apply(null,arguments);
+            }
+        })();
+
+        console.log(multiTop(1,2,3,4));
+        console.log(multiTop(1,2,3,4));
+
+    </script>
+</body>
+</html>
