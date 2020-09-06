@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 从小到大
+        var arr = [12,3,2,100,40].sort(function(a,b){
+            return a>b;
+        });
+        console.log(arr);  // [2, 3, 12, 40, 100]
+
+
+        // 从小到大
+        var arr = [12,3,2,100,40].sort(function(a,b){
+            return b>a;
+        });
+        console.log(arr);  // [100, 40, 12, 3, 2]
+
+    </script>
+</body>
+</html>

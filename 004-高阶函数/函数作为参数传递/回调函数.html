@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var appendDiv = function(){
+            for (var i = 0; i < 100; i++){
+                var div = document.createElement('div');
+                div.innerHTML = i;
+                document.body.appendChild(div);
+            }
+        }
+        //appendDiv(); // 循环100此 创建div ,内容1-100
+
+
+
+        var appendDivCallback = function(callback){
+            for (var i = 0; i < 100; i++){
+                var div = document.createElement('div');
+                div.innerHTML = i;
+                document.body.appendChild(div);
+
+                if(typeof callback === 'function'){
+                    callback(div,i);
+                }
+            }
+        }
+        appendDivCallback(function(node,i){
+            // 只显示前50 后50个 隐藏
+            if(i>50){
+                node.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
